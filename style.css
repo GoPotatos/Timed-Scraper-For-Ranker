@@ -1,0 +1,29 @@
+*{
+	box-sizing:border-box;
+	padding:0;
+}
+div{	
+	margin-bottom:10px;
+	background-color:"blue";
+}
+
+#btn{
+	width:100%;
+}
+:root{
+	width:200px;
+}
+
+
+form{
+	width:100%;
+}
+.box{
+	display:flex;
+	
+}
+
+.box input{
+	width:2.5rem;
+	margin:0 1rem;
+}
