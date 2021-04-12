@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
 		console.log("Starting scraping")
 		chrome.alarms.clearAll();
 		fetchTime();
-		startScraping();
+		//startScraping();
 		//({keyword,urls,id}=message.data)
 	}
 	
@@ -76,6 +76,7 @@ function createTab(){
 
 function downloadResult(){
 	const body=result.map(item=>[item.keyword,item.timestamp,...item.res])
+	console.log(JSON.stringify(body))
 	fetch(SCRIPT_ID,{method:"POST",headers:{"content-type":"Application/json"},body:JSON.stringify(body)}).then(data=>console.log(i=data))
 	result=result.map(item=>([JSON.stringify(item.keyword),item.timestamp,...item.res]).join(","))
 	result.splice(0,0,"keyword,timestamp, url1,url2,url3,url4,url5,url6")
