@@ -1,17 +1,20 @@
 const SCRIPT_ID=""
-const BASE='http://results.ranker.com/?keywords='
+const BASE='http://searchresults.ranker.com/?keywords='
+const VER="2"
 let result=[]
 let keyword="";
 let id=0;
 let urls=[];
 
+chrome.browserAction.setBadgeText({text:VER})
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
 	sendResponse("From background")
 	if(id){
 		if(message.type==="links"){
 			//console.log("Got links",message.links)
 			const timestamp=getTimeNow();
-			result.push({keyword,res:message.links,timestamp})
+			const date=(new Date()).toDateString()
+			result.push({keyword,res:message.links,timestamp,date})
 			if(urls.length){
 				keyword=urls.shift()
 				chrome.tabs.update(id,{url:BASE+keyword},(tab)=>{})
@@ -75,9 +78,10 @@ function createTab(){
 
 
 function downloadResult(){
-	const body=result.map(item=>[item.keyword,item.timestamp,...item.res])
+	const body=result.map(item=>[item.keyword,item.date,item.timestamp,...item.res])
 	console.log(JSON.stringify(body))
 	fetch(SCRIPT_ID,{method:"POST",headers:{"content-type":"Application/json"},body:JSON.stringify(body)}).then(data=>console.log(i=data))
+	
 	result=result.map(item=>([JSON.stringify(item.keyword),item.timestamp,...item.res]).join(","))
 	result.splice(0,0,"keyword,timestamp, url1,url2,url3,url4,url5,url6")
 	result=result.join("\n")
@@ -85,14 +89,18 @@ function downloadResult(){
 	dataUrl=URL.createObjectURL(blob)
 	result=[]
 	keyword=""
+	console.log("Downloaded")
+	chrome.tabs.remove(id)
+	id=0;
+	/*
 	const now=new Date()
 	const filename="ranker/"+now.toDateString()+" "+getTimeNow(",") +".csv";
 	//console.log("Filename",filename)
-	chrome.downloads.download({url:dataUrl,filename},()=>{
+	/chrome.downloads.download({url:dataUrl,filename},()=>{
 		console.log("Downloaded")
 		chrome.tabs.remove(id)
 		id=0;
-	})
+	})*/
 	
 }
 
