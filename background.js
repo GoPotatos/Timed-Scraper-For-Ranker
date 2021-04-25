@@ -123,7 +123,7 @@ function createTab(){
 
 function downloadResult(callback=function(){}){
 	const res=result.map(item=>[item.keyword,item.date,item.timestamp,...item.res])
-	const body={result:res[0],type:"links"}
+	const body={result:res,type:"links"}
 	console.log(JSON.stringify(body))
 	fetch(SCRIPT_ID,{method:"POST",headers:{"content-type":"Application/json"},body:JSON.stringify(body)}).then(callback)
 	.catch(err=>callback)
@@ -234,7 +234,7 @@ function startCheckup(){
 						running=false;
 						console.log("Tab crashed unloaded",tab)
 						const res="YSA"+VER;
-						const body={type:"crash-report",result:res[0]};
+						const body={type:"crash-report",result:res};
 						fetch(SCRIPT_ID,{method:"POST",body:JSON.stringify(body),headers:{"content-type":"Application/json"}})
 						.catch(err=>console.log("Error sending crash report",err))
 						clearInterval(interval)
