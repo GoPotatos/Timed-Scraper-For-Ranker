@@ -3,8 +3,10 @@ urls=[]
 let result=[]
 let keyword="";
 let id=null;
+//chrome.runtime.connect({name:"script.js"})
 window.onload=()=>{
 	console.log("Loaded")
+	
 	const form=document.forms[0]
 	const file=document.querySelector("#file")
 	const btn=document.querySelector("#btn");
@@ -32,7 +34,7 @@ window.onload=()=>{
 	
 	interval.oninput=function(e){
 		//console.log("inputting",this.value)
-		updateStorage({time:this.value})
+		updateStorage({time:this.value},modifyInterval.bind(null,this.value))
 	}
 	
 	fileOption.oninput=handleRadioChange;
@@ -86,4 +88,16 @@ function sendMessage(){
 	chrome.runtime.sendMessage({type:"start"})
 		window.close()
 	
+}
+
+
+function modifyInterval(minutes){
+	chrome.runtime.sendMessage({type:"modify-interval",minutes})
+}
+
+chrome.runtime.onMessage.addListener(handleMessages)
+
+function handleMessages(message,sender,sendResponse){
+	console.log(message,tab)
+	sendResponse("Got it")
 }
