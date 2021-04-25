@@ -1,4 +1,4 @@
-const SCRIPT_ID="https://script.google.com/macros/s/AKfycbxeO7WlvGxKh6-1pnsTTqTBcNxM3XrFk7Mvu-k3194oQ62mEjD7WcCR6jv4bULwJ7ioiw/exec"
+const SCRIPT_ID=""
 const BASE='http://results.ranker.com/?keywords='
 const VER="2"
 const BATCH_COUNT=10;
