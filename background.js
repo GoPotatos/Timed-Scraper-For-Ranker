@@ -2,7 +2,7 @@ const SCRIPT_ID="https://script.google.com/macros/s/AKfycbxeO7WlvGxKh6-1pnsTTqTB
 const BASE='http://results.ranker.com/?keywords='
 const VER="2"
 const BATCH_COUNT=10;
-const REPEAT_COUNT=2;
+const REPEAT_COUNT=5;
 let interval=0;
 let result=[]
 let keyword="";
