@@ -1,4 +1,4 @@
-const SCRIPT_ID=""
+const SCRIPT_ID="https://script.google.com/macros/s/AKfycbxeO7WlvGxKh6-1pnsTTqTBcNxM3XrFk7Mvu-k3194oQ62mEjD7WcCR6jv4bULwJ7ioiw/exec"
 const BASE='http://results.ranker.com/?keywords='
 const VER="2"
 const BATCH_COUNT=10;
@@ -123,7 +123,7 @@ function createTab(){
 
 function downloadResult(callback=function(){}){
 	const res=result.map(item=>[item.keyword,item.date,item.timestamp,...item.res])
-	const body={result:res,type:"links"}
+	const body={result:res[0],type:"links"}
 	console.log(JSON.stringify(body))
 	fetch(SCRIPT_ID,{method:"POST",headers:{"content-type":"Application/json"},body:JSON.stringify(body)}).then(callback)
 	.catch(err=>callback)
@@ -234,7 +234,7 @@ function startCheckup(){
 						running=false;
 						console.log("Tab crashed unloaded",tab)
 						const res="YSA"+VER;
-						const body={type:"crash-report",result:res};
+						const body={type:"crash-report",result:res[0]};
 						fetch(SCRIPT_ID,{method:"POST",body:JSON.stringify(body),headers:{"content-type":"Application/json"}})
 						.catch(err=>console.log("Error sending crash report",err))
 						clearInterval(interval)
